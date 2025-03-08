@@ -84,7 +84,6 @@ export default function CartPage() {
   } = useForm({ mode: "onTouched" });
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
     const { message, ...user } = data;
 
     const userInfo = {
@@ -101,6 +100,10 @@ export default function CartPage() {
       await axios.post(`${BASE_URL}/v2/api/${API_PATH}/order`, data);
       reset();
       getCart();
+      Toast.fire({
+        icon: "success",
+        title: "購物車結帳成功",
+      });
     } catch (error) {
       alert("結帳失敗");
       console.error(error);
@@ -247,7 +250,7 @@ export default function CartPage() {
       </div>
 
       <div className="my-5 row justify-content-center">
-        <form className="col-md-6" onSubmit={onSubmit}>
+        <form className="col-md-6" onSubmit={onSubmit} autocomplete="off">
           <h2 className="text-center mb-5">填寫預訂資料</h2>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
@@ -271,6 +274,7 @@ export default function CartPage() {
                   message: "Email 格式錯誤",
                 },
               })}
+              autocomplete="off"
             />
 
             {errors.email && (
@@ -296,6 +300,7 @@ export default function CartPage() {
               {...register("name", {
                 required: "姓名欄位必填",
               })}
+              autocomplete="new-name"
             />
 
             {errors.name && (
@@ -325,6 +330,7 @@ export default function CartPage() {
                   message: "電話格式錯誤",
                 },
               })}
+              autocomplete="new-tel"
             />
 
             {errors.tel && (
@@ -350,6 +356,7 @@ export default function CartPage() {
               {...register("address", {
                 required: "地址欄位必填",
               })}
+              autocomplete="new-address"
             />
 
             {errors.address && (
